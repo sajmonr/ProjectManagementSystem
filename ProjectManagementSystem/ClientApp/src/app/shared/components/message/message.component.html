@@ -5,10 +5,10 @@
            [ngClass]="{'bg-info': currentMessage.type == messageType.Info, 'bg-danger': currentMessage.type == messageType.Error, 'bg-success': currentMessage.type == messageType.Success}">
         <div class="container">
           <div class="row text-center">
-            <div class="col">
-              <img *ngIf="currentMessage.type == messageType.Info" alt="Info image" src="/assets/images/info.png"/>
-              <img *ngIf="currentMessage.type == messageType.Success" alt="Success image" src="/assets/images/ok.png"/>
-              <img *ngIf="currentMessage.type == messageType.Error" alt="Error image" src="/assets/images/cancel.png"/>
+            <div class="col text-white">
+              <i *ngIf="currentMessage.type == messageType.Success" class="far fa-check-circle fa-7x"></i>
+              <i *ngIf="currentMessage.type == messageType.Info" class="far fa-dot-circle fa-7x"></i>
+              <i *ngIf="currentMessage.type == messageType.Error" class="far fa-times-circle fa-7x"></i>
             </div>
           </div>
         </div>

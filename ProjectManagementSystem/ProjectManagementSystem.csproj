@@ -34,9 +34,6 @@
         <Content Include="ClientApp\src\app\project\requirements\requirements.component.less" />
         <Content Include="ClientApp\src\app\shared\components\message\message.component.css" />
         <Content Include="ClientApp\src\app\shared\components\message\message.component.html" />
-        <Content Include="ClientApp\src\assets\images\cancel.png" />
-        <Content Include="ClientApp\src\assets\images\info.png" />
-        <Content Include="ClientApp\src\assets\images\ok.png" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
         <None Include="ClientApp\src\app\app-routing.module.ts" />
@@ -65,6 +62,10 @@
       <TypeScriptCompile Include="ClientApp\src\app\services\users.service.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\shared\components\message\message.component.ts" />
       <TypeScriptCompile Include="ClientApp\src\app\shared\extensions\StringExtensions.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientApp\src\assets" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
