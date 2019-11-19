@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <table class="table table-sm table-borderless w-100">
+        <thead *ngIf="efforts.length > 0">
+        <tr>
+          <th></th>
+          <th>Effort</th>
+          <th>Period</th>
+          <th>Hours</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let effort of efforts">
+          <td>
+            <button class="btn btn-sm" (click)="onRemoveEffort(effort)">
+              <i class="fas fa-trash fa-lg"></i>
+            </button>
+          </td>
+          <td>{{effort.type.name}}</td>
+          <td>{{effort.frequency == effortFrequency.Daily ? (effort.added | date) : (effort.added | weekrange)}}</td>
+          <td>{{effort.hours}}</td>
+        </tr>
+        <tr *ngIf="efforts.length == 0">
+          <td colspan="3">
+            <span class="display-4">No efforts recorded</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-effort-modal" (click)="addEffort.emit()">
+              <i class="fas fa-plus fa-sm"></i>
+              Add Effort
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

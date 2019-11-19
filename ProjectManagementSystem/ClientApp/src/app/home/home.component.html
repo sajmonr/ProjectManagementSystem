@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col text-right">
+      <button class="btn btn-primary" (click)="onProjectSelect(0)" title="Add project">
+        <i class="fas fa-plus fa-sm"></i>
+        Create project
+      </button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      <table class="table table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th>Title</th>
+            <th>Manager</th>
+            <th>Created</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projects" (click)="onProjectSelect(project.id)">
+            <td>{{project.title}}</td>
+            <td>{{project.manager.getFullName()}}</td>
+            <td>{{project.created | date}}</td>
+            <td>
+              <button class="btn btn-sm" title="Delete" (click)="onProjectDelete(project, $event)">
+                <i class="fas fa-trash fa-lg"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

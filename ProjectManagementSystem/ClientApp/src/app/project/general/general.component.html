@@ -1,0 +1,119 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form>
+        <div class="form-row">
+          <div class="col">
+            <span class="display-4">General information</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>
+            Project name
+            <input type="text" class="form-control" name="title" [(ngModel)]="projectEditor.currentProject.title" required #title="ngModel"/>
+          </label>
+          <span class="text-danger help-block" *ngIf="title.invalid">Project name is required</span>
+          <label>
+            Manager
+            <select class="form-control" [(ngModel)]="projectEditor.currentProject.manager" name="manager" [compareWith]="userListComparator" required #manager="ngModel">
+              <option *ngFor="let user of users" [ngValue]="user">{{user.getFullName()}}</option>
+            </select>
+          </label>
+          <span class="help-block text-danger" *ngIf="manager.invalid">Manager is required</span>
+          <label>
+            Description
+            <textarea class="form-control" rows="6" name="description" [(ngModel)]="projectEditor.currentProject.description" required #description="ngModel"></textarea>
+          </label>
+          <span class="help-block text-danger" *ngIf="description.invalid">Description is required.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <span class="display-4">Team members</span>
+      <table class="table table-sm team-members-table w-100">
+        <thead class="thead-light">
+          <tr>
+            <th class="align-middle">Name</th>
+            <th class="text-right">
+              <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add-member-modal">
+                <i class="fas fa-plus fa-sm"></i>
+                Add member
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="projectEditor.currentProject.teamMembers.length == 0">
+            <td colspan="2" class="text-center">
+              <span class="display-4">No team members</span>
+            </td>
+          </tr>
+          <tr *ngFor="let user of projectEditor.currentProject.teamMembers">
+            <td>{{user.getFullName()}}</td>
+            <td class="text-right">
+              <button class="btn btn-sm" type="button" (click)="onRemoveMember(user)">
+                <i class="fas fa-trash fa-lg"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add-member-modal" aria-hidden="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form (ngSubmit)="onAddMember()" #addMemberForm="ngForm">
+        <div class="modal-header">
+          <span class="h5 modal-title">Add Team Member</span>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="col">
+              <label>
+                Select new member
+                <select class="form-control" ngModel name="member" #member="ngModel">
+                  <option *ngFor="let user of getAvailableMembers(projectEditor.currentProject.teamMembers)" [ngValue]="user">{{user.getFullName()}}</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <button class="btn btn-primary btn-sm my-3" type="button" data-toggle="collapse" data-target="#create-user">Create new member</button>
+              <div class="collapse" id="create-user">
+                <div class="container">
+                  <div class="row">
+                    <div class="col pl-0">
+                      <label>
+                        First name
+                        <input type="text" class="form-control" name="firstName" ngModel required #firstName="ngModel"/>
+                      </label>
+                      <span class="help-block text-danger" *ngIf="!member.value && firstName.touched && firstName.invalid">First name is reqired.</span>
+                    </div>
+                    <div class="col pl-0">
+                      <label>
+                        Last name
+                        <input type="text" class="form-control" name="lastName" ngModel required #lastName="ngModel"/>
+                      </label>
+                      <span class="help-block text-danger" *ngIf="!member.value && lastName.touched && lastName.invalid">Last name is reqired.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+          <button class="btn btn-primary" data-dismiss="modal" (click)="onAddMember()">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

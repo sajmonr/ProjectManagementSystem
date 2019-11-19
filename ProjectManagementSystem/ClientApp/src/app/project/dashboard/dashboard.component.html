@@ -1,0 +1,23 @@
+﻿<div class="container">
+  <div class="row">
+    <div class="col">
+      <span class="display-4">Expended hours</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col d-flex flex-wrap">
+      <div class="card bg-light mb-2 mr-2 section" style="max-width: 18rem;">
+        <div class="card-body">
+          <span class="section-value">{{getHoursForType()}}</span>
+          <span class="section-title">Total</span>
+        </div>
+      </div>
+      <div class="card bg-light mb-2 mr-2 section" style="max-width: 18rem;" *ngFor="let type of effortTypes">
+        <div class="card-body">
+          <span class="section-value">{{getHoursForType(type)}}</span>
+          <span class="section-title">{{type.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

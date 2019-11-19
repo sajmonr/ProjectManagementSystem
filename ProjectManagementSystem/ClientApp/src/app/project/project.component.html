@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <router-outlet (activate)="onActivate($event)"></router-outlet>
+    </div>
+  </div>
+  <div class="row justify-content-center" *ngIf="canSave">
+    <div class="col-10 text-center">
+      <button class="btn btn-primary btn-lg" (click)="onSave()">
+        <i class="fas fa-check fa-sm"></i>
+        Save Project
+      </button>
+    </div>
+  </div>
+</div>

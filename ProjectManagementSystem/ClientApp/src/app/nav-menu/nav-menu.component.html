@@ -1,0 +1,27 @@
+<header class="mb-3">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container justify-content-start">
+      <a class="navbar-brand" routerLink="/">
+        <i class="fas fa-quidditch fa-lg"></i>
+        Project Management System
+      </a>
+
+      <ul class="navbar-nav">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="/home">Projects</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav border-left" style="border-color: rgba(255, 255, 255, 0.5) !important;" *ngIf="projectId >= 0">
+        <li class="nav-item" routerLinkActive="active" *ngIf="projectId > 0">
+          <a class="nav-link" [routerLink]="['project', projectId, 'dashboard']">Dashboard</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="['project', projectId, 'general']">General</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active" *ngIf="projectId > 0">
+          <a class="nav-link" [routerLink]="['project', projectId, 'requirements']">Requirements</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

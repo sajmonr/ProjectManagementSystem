@@ -1,0 +1,136 @@
+<div class="container">
+  <div class="row" *ngFor="let requirementGroup of sortRequirements(projectEditor.currentProject.requirements); trackBy: trackByRequirements; index as mainIndex">
+    <div class="col">
+      <span class="display-4">{{requirementGroup.type == requirementType.Functional ? 'Functional requirements' : 'Non-functional requirements'}}</span>
+      <table class="table table-sm table-requirements">
+        <thead class="thead-light">
+        <tr>
+          <th></th>
+          <th>Created</th>
+          <th>Description</th>
+          <th class="text-right">
+            <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#new-requirement-modal" (click)="onCreateEdit()">
+              <i class="fas fa-plus fa-sm"></i>
+              Add requirement
+            </button>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="no-requirements" *ngIf="requirementGroup.requirements.length == 0">
+          <td colspan="4" class="text-center">
+            <span class="display-4">No requirements</span>
+          </td>
+        </tr>
+        <ng-container *ngFor="let requirement of requirementGroup.requirements; trackBy: trackByRequirements; index as secondaryIndex">
+          <tr data-toggle="collapse" [attr.data-target]="'#collapse-' + mainIndex + '-' + secondaryIndex" class="accordion-toggle collapsed">
+            <td class="text-center">
+              <i class="fas fa-angle-down fa-lg rotatable"></i>
+            </td>
+            <td>{{requirement.created | date}}</td>
+            <td>{{requirement.description}}</td>
+            <td class="text-right">
+              <button class="btn btn-sm mr-2" (click)="onCreateEdit(requirement, $event)">
+                <i class="fas fa-pen fa-lg"></i>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" class="hidden-row">
+              <div class="accordion-body collapse" [id]="'collapse-' + mainIndex + '-' + secondaryIndex">
+                <app-project-effort [efforts]="requirement.efforts" (addEffort)="onEffortEdit(requirement)"></app-project-effort>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="new-requirement-modal" #editRequirementModal>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="h4">{{requirementToEdit.id > 0 ? 'Edit requirement' : 'Create requirement'}}</span>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <label>
+            Type
+            <select class="form-control" [(ngModel)]="requirementToEdit.type" name="type" required #type="ngModel">
+              <option [ngValue]="requirementType.NonFunctional">Non-Functional</option>
+              <option [ngValue]="requirementType.Functional">Functional</option>
+            </select>
+          </label>
+          <span class="help-block text-danger" *ngIf="type.touched && type.invalid">Type is required.</span>
+          <label>
+            Description
+            <textarea class="form-control" rows="6" [(ngModel)]="requirementToEdit.description" name="description" required #description="ngModel"></textarea>
+          </label>
+          <span class="help-block text-danger" *ngIf="description.touched && description.invalid">Description is required.</span>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="container p-0">
+          <div class="row">
+            <div class="col" *ngIf="requirementToEdit.id > 0">
+              <button class="btn btn-danger">Delete requirement</button>
+            </div>
+            <div class="col text-right">
+              <button class="btn btn-primary mr-2" type="button" (click)="onRequirementUpdate()" [disabled]="type.invalid || description.invalid">Save</button>
+              <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add-effort-modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title h5">Add Effort</span>
+      </div>
+      <div class="modal-body">
+        <form #addEffortForm="ngForm">
+          <div class="form-group">
+            <label>
+              Type
+              <select class="form-control" ngModel name="type" #type="ngModel">
+                <option *ngFor="let type of effortTypes; first as isFirst" [selected]="isFirst" [ngValue]="type">{{type.name}}</option>
+              </select>
+            </label>
+            <span class="help-block text-danger" *ngIf="type.touched && type.invalid">Type must be selected.</span>
+            <label>
+              Period
+              <select class="form-control" ngModel name="period" #period="ngModel">
+                <option value="0" selected>Daily</option>
+                <option value="1">Weekly</option>
+              </select>
+            </label>
+            <span class="help-block text-danger" *ngIf="period.touched && period.invalid">Period must be selected.</span>
+            <label>
+              Date
+              <input type="date" class="form-control" ngModel name="date" #date="ngModel"/>
+            </label>
+            <span class="help-block text-danger" *ngIf="date.touched && date.invalid">Date cannot be empty.</span>
+            <label>
+              Hours
+              <input type="number" class="form-control" ngModel name="hours" #hours="ngModel"/>
+            </label>
+            <span class="help-block text-danger" *ngIf="hours.touched && hours.invalid">Hours field cannot be empty.</span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+        <button class="btn btn-primary" data-dismiss="modal" (click)="onEffortAdd()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
